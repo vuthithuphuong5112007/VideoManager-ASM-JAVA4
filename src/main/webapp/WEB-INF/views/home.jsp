@@ -1,10 +1,24 @@
+
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ page import="com.java04.entity.User" %>
 
 <!DOCTYPE html>
 <html>
+
+<script>
+    function setShareVideoId(id) {
+        document.getElementById("shareVideoId").value = id;
+    }
+
+    function shareToMessenger(videoId) {
+        // Sử dụng phép nối chuỗi tiêu chuẩn
+        const videoUrl = window.location.origin + "/videochitiet?videoId=" + videoId;
+
+        // Tránh Template Literals để JSP không hiểu nhầm
+        window.open("https://www.messenger.com/t/?link=" + encodeURIComponent(videoUrl), '_blank');
+    }
+</script>
 
 <head>
     <title>Trang chủ</title>
@@ -67,7 +81,7 @@
 
 <body>
 <%--Menu--%>
-<jsp:include page="menu.jsp"/>
+<jsp:include page="menu.jsp" />
 <%--Menu--%>
 
 <%--List Video--%>
@@ -83,7 +97,7 @@
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">${v.title}</h5>
 
-                        <!-- Thêm hiển thị số lượt share -->
+                        <!-- Thêm hiển thị số lượt share (luôn hiển thị) -->
                         <div class="video-stats mb-2">
                             <small class="text-muted">
                                 <i class="fas fa-share"></i> ${videoShareCount[v.id]}
@@ -100,8 +114,7 @@
                                         <input type="hidden" name="returnUrl"
                                                value="home?page=${currentPage}">
                                         <button type="submit"
-                                                class="btn btn-outline-secondary">Unlike
-                                        </button>
+                                                class="btn btn-outline-secondary">Unlike</button>
                                     </form>
                                 </c:when>
                                 <c:otherwise>
@@ -111,8 +124,7 @@
                                         <input type="hidden" name="returnUrl"
                                                value="home?page=${currentPage}">
                                         <button type="submit"
-                                                class="btn btn-outline-danger">Like
-                                        </button>
+                                                class="btn btn-outline-danger">Like</button>
                                     </form>
                                 </c:otherwise>
                             </c:choose>
@@ -121,7 +133,11 @@
                                 <input type="hidden" name="videoId" value="${v.id}">
                                 <button type="button" class="btn btn-outline-info"
                                         data-bs-toggle="modal" data-bs-target="#sendEmail"
-                                        onclick="setShareVideoId('${v.id}')">Share
+                                        onclick="setShareVideoId('${v.id}')">Share Email</button>
+
+                                <button type="button" class="btn btn-outline-primary"
+                                        onclick="shareToMessenger('${v.id}')">
+                                    Share Messenger
                                 </button>
                             </form>
                         </div>
@@ -131,8 +147,8 @@
         </c:forEach>
     </div>
 
-    <c:set var="currentPage" value="${currentPage}"/>
-    <c:set var="totalPages" value="${totalPages}"/>
+    <c:set var="currentPage" value="${currentPage}" />
+    <c:set var="totalPages" value="${totalPages}" />
 
     <nav class="d-flex justify-content-center mt-5">
         <ul class="pagination">
@@ -190,41 +206,15 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit"
-                            class="btn btn-outline-info px-4">Send
-                    </button>
+                            class="btn btn-outline-info px-4">Send email</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-<script>
-    function setShareVideoId(id) {
-        document.getElementById("shareVideoId").value = id;
-    }
 
-    // Bắt sự kiện click vào poster hoặc title
-    document.addEventListener("DOMContentLoaded", function () {
-        const posters = document.querySelectorAll(".card-img-top");
-        const titles = document.querySelectorAll(".card-title");
 
-        posters.forEach((poster) => {
-            poster.style.cursor = "pointer";
-            poster.addEventListener("click", function () {
-                const title = this.closest(".card").querySelector(".card-title").innerText;
-                showDetail(title, "This is a description for: " + title);
-            });
-        });
-
-        titles.forEach((titleElement) => {
-            titleElement.style.cursor = "pointer";
-            titleElement.addEventListener("click", function () {
-                const title = this.innerText;
-                showDetail(title, "This - is a description for: " + title);
-            });
-        });
-    });
-</script>
 </body>
 
 </html>
