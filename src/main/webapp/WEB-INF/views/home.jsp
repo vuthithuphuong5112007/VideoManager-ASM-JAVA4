@@ -220,7 +220,7 @@
             titleElement.style.cursor = "pointer";
             titleElement.addEventListener("click", function () {
                 const title = this.innerText;
-                showDetail(title, "This is a description for: " + title);
+                showDetail(title, "This - is a description for: " + title);
             });
         });
     });
