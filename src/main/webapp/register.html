@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng ký</title>
+</head>
+<body>
+<h2>Trang đăng ký</h2>
+
+<form id="registerForm" onsubmit="return register()">
+    <label>Email:</label>
+    <input type="text" id="email"><br><br>
+    <label>Mật khẩu:</label>
+    <input type="password" id="password"><br><br>
+    <button type="submit" id="btnRegister">Đăng ký</button>
+</form>
+
+<p id="message" style="color:green"></p>
+
+<script>
+    function register() {
+        let email = document.getElementById("email").value;
+        let pass = document.getElementById("password").value;
+        let msg = document.getElementById("message");
+
+        if (!email.includes("@")) {
+            msg.textContent = "Email không hợp lệ";
+            msg.style.color = "red";
+            return false;
+        }
+        if (pass.length < 6) {
+            msg.textContent = "Mật khẩu quá ngắn";
+            msg.style.color = "red";
+            return false;
+        }
+        msg.textContent = "Đăng ký thành công";
+        msg.style.color = "green";
+        return false;
+    }
+</script>
+</body>
+</html>

@@ -26,17 +26,18 @@ public class VideoChiTietServlet extends HttpServlet {
 
         VideoDAO dao = new VideoDAOImpl();
         Video currentVideo = dao.findById(videoId);
+
+        // Thêm: Lấy số lượt share (luôn hiển thị)
+        ShareDAO shareDAO = new ShareDAOImpl();
+        int shareCount = shareDAO.countSharesByVideoId(videoId);
+        request.setAttribute("shareCount", shareCount);
+
         if (currentVideo != null) {
             currentVideo.setViews(currentVideo.getViews() + 1);
             dao.update(currentVideo);
 
             int likeCount = dao.countLikeByViews(videoId);
             request.setAttribute("likeCount", likeCount);
-
-            // Thêm: Lấy số lượt share
-            ShareDAO shareDAO = new ShareDAOImpl();
-            int shareCount = shareDAO.countSharesByVideoId(videoId);
-            request.setAttribute("shareCount", shareCount);
 
             HttpSession session = request.getSession(false);
             User user = (session != null) ? (User) session.getAttribute("user") : null;
@@ -61,4 +62,6 @@ public class VideoChiTietServlet extends HttpServlet {
         request.setAttribute("recommended", recommended);
         request.getRequestDispatcher("/WEB-INF/views/videochitiet.jsp").forward(request, response);
     }
+
+
 }

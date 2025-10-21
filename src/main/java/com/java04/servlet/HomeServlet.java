@@ -48,6 +48,15 @@ public class HomeServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
 
+        // Thêm: Lấy số lượt share của từng video (luôn hiển thị)
+        ShareDAO shareDAO = new ShareDAOImpl();
+        Map<String, Integer> videoShareCount = new HashMap<>();
+        for (Video video : videos) {
+            int shareCount = shareDAO.countSharesByVideoId(video.getId());
+            videoShareCount.put(video.getId(), shareCount);
+        }
+        request.setAttribute("videoShareCount", videoShareCount);
+
         if (user != null) {
             List<Favorite> favorites = favoriteDAO.findByUserId(user.getId());
             request.setAttribute("favorites", favorites);
@@ -59,15 +68,6 @@ public class HomeServlet extends HttpServlet {
                 videoLikeStatus.put(video.getId(), isLiked);
             }
             request.setAttribute("videoLikeStatus", videoLikeStatus);
-
-            // Thêm: Lấy số lượt share của từng video
-            ShareDAO shareDAO = new ShareDAOImpl();
-            Map<String, Integer> videoShareCount = new HashMap<>();
-            for (Video video : videos) {
-                int shareCount = shareDAO.countSharesByVideoId(video.getId());
-                videoShareCount.put(video.getId(), shareCount);
-            }
-            request.setAttribute("videoShareCount", videoShareCount);
         }
 
         request.setAttribute("videos", videos);

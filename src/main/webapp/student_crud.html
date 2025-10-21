@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý sinh viên</title>
+</head>
+<body>
+<h2>Quản lý sinh viên</h2>
+
+<label>Tên:</label> <input type="text" id="txtName">
+<label>Email:</label> <input type="text" id="txtEmail">
+<button id="btnAdd" onclick="addStudent()">Thêm</button>
+<button id="btnDelete" onclick="deleteStudent()">Xóa</button>
+
+<p id="message" style="color:green"></p>
+
+<table border="1" id="tblStudent">
+    <thead>
+    <tr><th>Tên</th><th>Email</th></tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script>
+    function addStudent() {
+        let name = document.getElementById("txtName").value;
+        let email = document.getElementById("txtEmail").value;
+        let msg = document.getElementById("message");
+
+        if (name === "" || email === "") {
+            msg.textContent = "Vui lòng nhập đầy đủ thông tin!";
+            msg.style.color = "red";
+            return;
+        }
+
+        let row = document.createElement("tr");
+        row.innerHTML = `<td>${name}</td><td>${email}</td>`;
+        document.querySelector("#tblStudent tbody").appendChild(row);
+
+        msg.textContent = "Thêm sinh viên thành công";
+        msg.style.color = "green";
+    }
+
+    function deleteStudent() {
+        let table = document.querySelector("#tblStudent tbody");
+        if (table.rows.length > 0) {
+            table.deleteRow(0);
+            document.getElementById("message").textContent = "Đã xóa sinh viên đầu tiên";
+        } else {
+            document.getElementById("message").textContent = "Không có sinh viên để xóa";
+        }
+    }
+</script>
+</body>
+</html>

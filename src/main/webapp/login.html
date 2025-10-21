@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Đăng nhập</title>
+</head>
+<body>
+<h2>Trang đăng nhập</h2>
+
+<form id="loginForm" onsubmit="return login()">
+    <label>Email:</label>
+    <input type="text" id="email" name="email"><br><br>
+    <label>Mật khẩu:</label>
+    <input type="password" id="password" name="password"><br><br>
+    <button type="submit" id="btnLogin">Đăng nhập</button>
+</form>
+
+<p id="error-message" style="color:red"></p>
+
+<script>
+    function login() {
+        let email = document.getElementById("email").value;
+        let pass = document.getElementById("password").value;
+        let msg = document.getElementById("error-message");
+
+        if (!email.includes("@")) {
+            msg.textContent = "Email không hợp lệ";
+            return false;
+        }
+        if (pass.length < 6) {
+            msg.textContent = "Mật khẩu quá ngắn";
+            return false;
+        }
+        if (email === "user@gmail.com" && pass === "123456") {
+            window.location.href = "home.html";
+            return false;
+        } else {
+            msg.textContent = "Sai thông tin đăng nhập";
+            return false;
+        }
+    }
+</script>
+</body>
+</html>

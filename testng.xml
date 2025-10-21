@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="WebsiteAutomationSuite">
+    <test name="LoginAndCRUDTest">
+        <classes>
+            <class name="test.selenium_test.LoginTest"/>
+            <class name="test.selenium_test.CRUDTest"/>
+        </classes>
+    </test>
+</suite>
